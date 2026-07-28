@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>数据资产运营平台</title>
+  <style>
+    :root{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif;color:#172033;background:#f5f7fb}*{box-sizing:border-box}body{margin:0;min-width:980px;background:#f5f7fb}.app{display:grid;grid-template-columns:210px 1fr;min-height:100vh}.side{background:#fff;border-right:1px solid #e8ecf4;padding:22px 14px}.brand{display:flex;align-items:center;gap:10px;font-weight:700;margin:0 8px 25px}.brand i{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#4f5ce8;color:#fff;font-style:normal}.nav{display:grid;gap:6px}.nav a{padding:11px 13px;border-radius:11px;text-decoration:none;color:#677188;font-size:13px}.nav a.active{background:#edf0ff;color:#3f4fe0;font-weight:650}.main{padding:24px 30px}.crumb{font-size:12px;color:#8c95a8}.header{display:flex;align-items:center;justify-content:space-between;margin:16px 0 20px}.header h1{font-size:24px;margin:0}.actions{display:flex;gap:10px}.btn{height:38px;padding:0 15px;border:1px solid #dce2ee;border-radius:11px;background:#fff;color:#344057}.btn.primary{border-color:#4f5ce8;background:#4f5ce8;color:#fff}.tabs{display:flex;gap:24px;border-bottom:1px solid #e2e7f0;margin-bottom:18px}.tab{padding:0 2px 12px;font-size:13px;color:#737d91}.tab.active{color:#4352df;border-bottom:2px solid #4f5ce8;font-weight:650}.content{display:grid;grid-template-columns:210px 1fr;gap:16px}.card{background:#fff;border:1px solid #e4e9f1;border-radius:16px;box-shadow:0 12px 28px rgba(45,55,90,.04)}.groups{padding:15px}.groups h3{font-size:13px;margin:0 0 12px}.group{display:flex;justify-content:space-between;padding:10px;border-radius:9px;font-size:12px;color:#657087}.group.active{background:#eef1ff;color:#4353df}.table{overflow:hidden}.filters{display:flex;gap:9px;padding:15px;border-bottom:1px solid #e9edf4}.input{height:36px;border:1px solid #dce2ed;border-radius:10px;padding:0 12px;color:#7a8497;background:#fff;min-width:230px}.select{min-width:125px}.row{display:grid;grid-template-columns:1.6fr .7fr .7fr .8fr .6fr .6fr;align-items:center;min-height:58px;padding:0 16px;border-bottom:1px solid #edf0f5;font-size:12px}.row.head{min-height:42px;background:#fafbfe;color:#8992a5;font-size:11px}.name{display:flex;align-items:center;gap:10px;font-weight:650}.avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:#eef1ff;color:#4353df;font-size:10px}.tag{display:inline-flex;align-items:center;width:max-content;padding:5px 9px;border-radius:999px;background:#e9f8ef;color:#198851;font-size:10px}.link{color:#4052e5}.footer{display:flex;justify-content:space-between;padding:14px 16px;color:#8b94a6;font-size:11px}.page{display:flex;gap:6px}.page b{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:#4f5ce8;color:white;font-weight:500}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand"><i>数</i>数据资产运营平台</div>
+      <nav class="nav">
+        <a class="active" href="#">数据源管理</a>
+        <a href="#">数据集管理</a>
+        <a href="#">数据预处理</a>
+        <a href="#">算子管理</a>
+        <a href="#">数据模型管理</a>
+        <a href="#">指标管理</a>
+        <a href="#">可视化 BI</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <div class="crumb">数据资产运营 / 数据源管理</div>
+      <header class="header">
+        <h1>数据源管理</h1>
+        <div class="actions"><button class="btn">同步元数据</button><button class="btn primary">新建数据源</button></div>
+      </header>
+      <div class="tabs"><div class="tab active">数据源列表</div><div class="tab">权限分配</div></div>
+      <section class="content">
+        <aside class="card groups">
+          <h3>数据源分组</h3>
+          <div class="group active"><span>全部数据源</span><b>5</b></div>
+          <div class="group"><span>业务系统</span><b>2</b></div>
+          <div class="group"><span>分析数据仓库</span><b>1</b></div>
+          <div class="group"><span>外部接口</span><b>1</b></div>
+          <div class="group"><span>本地上传</span><b>1</b></div>
+        </aside>
+        <div class="card table">
+          <div class="filters"><div class="input">搜索数据源名称、地址或负责人</div><div class="input select">全部接入模式⌄</div></div>
+          <div class="row head"><span>数据源名称</span><span>接入模式</span><span>类型 / 格式</span><span>所属分组</span><span>状态</span><span>操作</span></div>
+          <div class="row"><span class="name"><i class="avatar">MY</i>广东电力营销业务库</span><span>数据库</span><span>MySQL</span><span>业务系统</span><span class="tag">连接正常</span><span class="link">详情　修改</span></div>
+          <div class="row"><span class="name"><i class="avatar">OR</i>广东用电计量采集库</span><span>数据库</span><span>Oracle</span><span>业务系统</span><span class="tag">连接正常</span><span class="link">详情　修改</span></div>
+          <div class="row"><span class="name"><i class="avatar">API</i>电费回款服务</span><span>API</span><span>REST</span><span>外部接口</span><span class="tag">连接正常</span><span class="link">详情　修改</span></div>
+          <div class="row"><span class="name"><i class="avatar">XLS</i>台区维度文件</span><span>本地</span><span>Excel</span><span>本地上传</span><span class="tag">解析完成</span><span class="link">详情　修改</span></div>
+          <div class="row"><span class="name"><i class="avatar">PG</i>电力分析数据仓库</span><span>数据库</span><span>PostgreSQL</span><span>分析数据仓库</span><span class="tag">连接正常</span><span class="link">详情　修改</span></div>
+          <footer class="footer"><span>共 5 条数据源</span><div class="page"><b>1</b></div></footer>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
