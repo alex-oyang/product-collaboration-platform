@@ -24,6 +24,7 @@ type AccountDialog = 'profile' | 'password' | 'access' | null
 type DetailIntent = 'edit' | 'members' | 'transfer' | undefined
 
 const state = shallowRef<BootstrapState | null>(null)
+const staticPreview = import.meta.env.VITE_STATIC_PREVIEW === 'true'
 const page = ref<Page>('dashboard')
 const selectedProductId = ref('')
 const uploadProductId = ref('')
@@ -95,6 +96,11 @@ async function refresh(silent = false) {
 
 async function bootstrap() {
   loading.value = true
+  if (staticPreview) {
+    loginError.value = ''
+    loading.value = false
+    return
+  }
   try {
     state.value = await getBootstrap()
   } catch (error) {
@@ -200,7 +206,7 @@ onMounted(bootstrap)
 
 <template>
   <div v-if="loading" class="grid min-h-screen place-items-center"><div class="glass-card flex items-center gap-3 px-6 py-4 text-sm font-medium text-slate-700"><LoaderCircle class="h-5 w-5 animate-spin text-indigo-600" />正在启动项目产品协作平台</div></div>
-  <LoginPage v-else-if="!state" :loading="loginLoading" :error="loginError" @submit="handleLogin" />
+  <LoginPage v-else-if="!state" :loading="loginLoading" :error="loginError" :preview-mode="staticPreview" @submit="handleLogin" />
   <div v-else class="min-h-screen">
     <aside :class="['fixed inset-y-0 left-0 z-50 flex w-[252px] flex-col border-r border-white/80 bg-white/68 p-4 shadow-[18px_0_55px_rgba(79,88,128,.07)] backdrop-blur-2xl transition-transform', !sidebarOpen && '-translate-x-full']">
       <div class="flex items-center gap-3 px-2 py-3"><div class="grid h-11 w-11 place-items-center rounded-2xl bg-indigo-600 text-white shadow-glow"><Activity class="h-6 w-6" /></div><div><p class="text-sm font-semibold text-slate-950">项目产品协作平台</p><p class="mt-0.5 text-[10px] uppercase tracking-[.15em] text-indigo-500">Review workspace</p></div></div>

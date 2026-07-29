@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { ArrowRight, Eye, EyeOff, Layers3, LoaderCircle, LockKeyhole, ShieldCheck, UserRound } from 'lucide-vue-next'
 
-const props = defineProps<{ loading: boolean; error: string }>()
+const props = defineProps<{ loading: boolean; error: string; previewMode: boolean }>()
 const emit = defineEmits<{ submit: [input: { username: string; password: string; remember: boolean }] }>()
 
 const remembered = localStorage.getItem('prototype-review-username') ?? ''
@@ -10,7 +10,7 @@ const username = ref(remembered)
 const password = ref('')
 const remember = ref(Boolean(remembered))
 const showPassword = ref(false)
-const canSubmit = computed(() => username.value.trim().length > 0 && password.value.length > 0 && !props.loading)
+const canSubmit = computed(() => !props.previewMode && username.value.trim().length > 0 && password.value.length > 0 && !props.loading)
 
 function submit() {
   if (!canSubmit.value) return
@@ -44,25 +44,32 @@ function submit() {
     <section class="grid place-items-center px-6 py-12 sm:px-12">
       <form class="glass-card w-full max-w-md p-8 sm:p-10" @submit.prevent="submit">
         <div class="mb-8 lg:hidden"><p class="text-lg font-semibold text-slate-900">项目产品协作平台</p></div>
-        <p class="eyebrow">WELCOME BACK</p>
-        <h2 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-slate-950">登录工作台</h2>
-        <p class="mt-2 text-sm leading-6 text-slate-500">使用管理员分配的账号继续评审。</p>
+        <p class="eyebrow">{{ previewMode ? 'FRONTEND PREVIEW' : 'WELCOME BACK' }}</p>
+        <h2 class="mt-2 text-3xl font-semibold tracking-[-.03em] text-slate-950">{{ previewMode ? '前端展示模式' : '登录工作台' }}</h2>
+        <p class="mt-2 text-sm leading-6 text-slate-500">{{ previewMode ? '页面资源已正常加载，当前地址未连接业务服务。' : '使用管理员分配的账号继续评审。' }}</p>
 
         <div v-if="error" class="mt-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">{{ error }}</div>
 
-        <label class="field-label mt-7" for="login-username">账号</label>
-        <div class="input-shell mt-2"><UserRound class="h-4 w-4 text-slate-400" /><input id="login-username" v-model="username" autocomplete="username" placeholder="请输入账号" autofocus /></div>
+        <div v-if="previewMode" class="mt-7 rounded-3xl border border-indigo-100 bg-indigo-50/75 p-5 text-sm leading-7 text-slate-600">
+          <div class="flex items-center gap-2 font-semibold text-indigo-700"><ShieldCheck class="h-4 w-4" />GitHub Pages仅托管前端</div>
+          <p class="mt-2">登录、产品上传、版本管理和批注需要 Node 服务。完整系统部署后，请使用公司提供的正式访问地址。</p>
+        </div>
 
-        <label class="field-label mt-5" for="login-password">密码</label>
-        <div class="input-shell mt-2"><LockKeyhole class="h-4 w-4 text-slate-400" /><input id="login-password" v-model="password" :type="showPassword ? 'text' : 'password'" autocomplete="current-password" placeholder="请输入密码" /><button class="text-slate-400 transition hover:text-slate-700" type="button" :aria-label="showPassword ? '隐藏密码' : '显示密码'" @click="showPassword = !showPassword"><EyeOff v-if="showPassword" class="h-4 w-4" /><Eye v-else class="h-4 w-4" /></button></div>
+        <template v-else>
+          <label class="field-label mt-7" for="login-username">账号</label>
+          <div class="input-shell mt-2"><UserRound class="h-4 w-4 text-slate-400" /><input id="login-username" v-model="username" autocomplete="username" placeholder="请输入账号" autofocus /></div>
 
-        <label class="mt-5 inline-flex cursor-pointer items-center gap-2 text-sm text-slate-600"><input v-model="remember" class="h-4 w-4 rounded border-slate-300 accent-indigo-600" type="checkbox" />记住账号并保持登录</label>
+          <label class="field-label mt-5" for="login-password">密码</label>
+          <div class="input-shell mt-2"><LockKeyhole class="h-4 w-4 text-slate-400" /><input id="login-password" v-model="password" :type="showPassword ? 'text' : 'password'" autocomplete="current-password" placeholder="请输入密码" /><button class="text-slate-400 transition hover:text-slate-700" type="button" :aria-label="showPassword ? '隐藏密码' : '显示密码'" @click="showPassword = !showPassword"><EyeOff v-if="showPassword" class="h-4 w-4" /><Eye v-else class="h-4 w-4" /></button></div>
 
-        <button class="primary-button mt-7 w-full justify-center" type="submit" :disabled="!canSubmit">
-          <LoaderCircle v-if="loading" class="h-4 w-4 animate-spin" />
-          <template v-else>进入工作台<ArrowRight class="h-4 w-4" /></template>
-        </button>
-        <p class="mt-5 text-center text-xs leading-5 text-slate-400">账号由超级管理员统一创建。系统不会保存明文密码。</p>
+          <label class="mt-5 inline-flex cursor-pointer items-center gap-2 text-sm text-slate-600"><input v-model="remember" class="h-4 w-4 rounded border-slate-300 accent-indigo-600" type="checkbox" />记住账号并保持登录</label>
+
+          <button class="primary-button mt-7 w-full justify-center" type="submit" :disabled="!canSubmit">
+            <LoaderCircle v-if="loading" class="h-4 w-4 animate-spin" />
+            <template v-else>进入工作台<ArrowRight class="h-4 w-4" /></template>
+          </button>
+          <p class="mt-5 text-center text-xs leading-5 text-slate-400">账号由超级管理员统一创建。系统不会保存明文密码。</p>
+        </template>
       </form>
     </section>
   </main>
